@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Edi Wang</Authors>
+    <Company>edi.wang</Company>
+    <PackageTags>Filter</PackageTags>
+    <PackageProjectUrl>https://edi.wang</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/EdiWang/Edi.WordFilter</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>
