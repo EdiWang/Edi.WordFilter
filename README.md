@@ -29,7 +29,7 @@ Split disharmony word into HashTable, Key points to the first character, Value p
 
 For example, given disharmony word "FUCK,FS,ABC", the following structure is created:
 
-// TODO
+![image](https://raw.githubusercontent.com/EdiWang/Edi.WordFilter/master/img/doc-hashtable-structure.png)
 
 Each black box represents a HashTable, each character of the disharmony word is stored as the Key and pointing to the next HashTable.
 
