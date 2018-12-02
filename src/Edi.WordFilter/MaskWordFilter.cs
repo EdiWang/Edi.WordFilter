@@ -8,22 +8,11 @@ namespace Edi.WordFilter
 {
     public class MaskWordFilter
     {
-        public string DataFilePath { get; }
-
-        public char SplitChar { get; }
-
         private readonly Hashtable _filterWords = new Hashtable();
 
-        private readonly object _objLock = new object();
-
-        private string BanWords { get; }
-
-        public MaskWordFilter(string dataFilePath, char splitChar = '|')
+        public MaskWordFilter(IWordSource wordSource, char splitChar = '|')
         {
-            SplitChar = splitChar;
-            DataFilePath = dataFilePath;
-            BanWords = GetBanWordFromDataFile();
-            var banWords = BanWords.Split(SplitChar);
+            var banWords = wordSource.GetWordsArray();
             foreach (var s in banWords) AddWordToHashtable(s);
         }
 
@@ -71,11 +60,6 @@ namespace Edi.WordFilter
 
                 return result.ToString();
             }
-        }
-
-        public void SaveDataFile()
-        {
-            SaveDataFile(BanWords);
         }
 
         #region Private Methods
@@ -140,34 +124,6 @@ namespace Edi.WordFilter
             }
 
             return h != null && h.ContainsKey(0) ? i : -1;
-        }
-
-        private string GetBanWordFromDataFile()
-        {
-            using (var reader = new StreamReader(DataFilePath, Encoding.UTF8))
-            {
-                var content = reader.ReadLine();
-                return content;
-            }
-        }
-
-        private void SaveDataFile(string banWords)
-        {
-            lock (_objLock)
-            {
-                using (var writer = File.CreateText(DataFilePath))
-                {
-                    writer.WriteLine(FormatKeyWord(banWords));
-                    writer.Flush();
-                }
-            }
-        }
-
-        private string FormatKeyWord(string banWordsList)
-        {
-            banWordsList = banWordsList.Replace("'", string.Empty).Replace(" ", string.Empty);
-            banWordsList = banWordsList.Trim(SplitChar);
-            return banWordsList;
         }
 
         #endregion

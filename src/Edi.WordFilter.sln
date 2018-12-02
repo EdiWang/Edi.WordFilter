@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edi.WordFilter", "Edi.WordFilter\Edi.WordFilter.csproj", "{114AE832-F7AC-435F-AFE8-BB0BF3EFAC59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edi.WordFilter", "Edi.WordFilter\Edi.WordFilter.csproj", "{114AE832-F7AC-435F-AFE8-BB0BF3EFAC59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{35A2E1C4-A85F-45C7-8DEB-2F2D88463FBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{114AE832-F7AC-435F-AFE8-BB0BF3EFAC59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{114AE832-F7AC-435F-AFE8-BB0BF3EFAC59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{114AE832-F7AC-435F-AFE8-BB0BF3EFAC59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A2E1C4-A85F-45C7-8DEB-2F2D88463FBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A2E1C4-A85F-45C7-8DEB-2F2D88463FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A2E1C4-A85F-45C7-8DEB-2F2D88463FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A2E1C4-A85F-45C7-8DEB-2F2D88463FBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
