@@ -4,6 +4,8 @@ Module used in my blog system to filter disharmony words in order to live in Chi
 
 It uses HashTable to filter content very quickly.
 
+[![Build status](https://dev.azure.com/ediwang/EdiWang-GitHub-Builds/_apis/build/status/Edi.WordFilter-CI)](https://dev.azure.com/ediwang/EdiWang-GitHub-Builds/_build/latest?definitionId=-1)
+
 ## Usage
 
 **1.Prepare a text file with banned words, for example splitted by "|". Like this:**
