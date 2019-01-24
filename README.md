@@ -1,6 +1,6 @@
 # Edi.WordFilter
 
-Module used in my blog system to filter disharmony words in order to live in China.
+Module used in my blog system to filter dirty words (e.g. insulting languages, impertinent words)
 
 It uses HashTable to filter content very quickly.
 
@@ -10,7 +10,7 @@ It uses HashTable to filter content very quickly.
 
 **1.Prepare a text file with banned words, for example splitted by "|". Like this:**
 ```
-翻墙|防火长城|GFW|fuck
+fuck|shit|ass
 ```
 Because I still want to live, I can't give you the entire keywords list, sorry for that.
 
