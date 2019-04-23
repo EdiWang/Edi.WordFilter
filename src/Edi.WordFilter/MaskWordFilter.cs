@@ -6,7 +6,12 @@ using System.Text;
 
 namespace Edi.WordFilter
 {
-    public class MaskWordFilter
+    public interface IMaskWordFilter
+    {
+        string FilterContent(string content);
+    }
+
+    public class MaskWordFilter : IMaskWordFilter
     {
         private readonly Hashtable _filterWords = new Hashtable();
 
