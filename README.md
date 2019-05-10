@@ -6,6 +6,11 @@ It uses HashTable to filter content very quickly.
 
 [![Build status](https://dev.azure.com/ediwang/EdiWang-GitHub-Builds/_apis/build/status/Edi.WordFilter-CI)](https://dev.azure.com/ediwang/EdiWang-GitHub-Builds/_build/latest?definitionId=-1)
 
+[![NuGet][main-nuget-badge]][main-nuget]
+
+[main-nuget]: https://www.nuget.org/packages/Edi.WordFilter/
+[main-nuget-badge]: https://img.shields.io/nuget/v/Edi.WordFilter.svg?style=flat-square&label=nuget
+
 ## Usage
 
 **1.Prepare a text file with banned words, for example splitted by "|". Like this:**
