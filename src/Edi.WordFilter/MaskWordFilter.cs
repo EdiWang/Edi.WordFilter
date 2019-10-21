@@ -15,7 +15,7 @@ namespace Edi.WordFilter
     {
         private readonly Hashtable _filterWords = new Hashtable();
 
-        public MaskWordFilter(IWordSource wordSource, char splitChar = '|')
+        public MaskWordFilter(IWordSource wordSource)
         {
             var banWords = wordSource.GetWordsArray();
             foreach (var s in banWords) AddWordToHashtable(s);
