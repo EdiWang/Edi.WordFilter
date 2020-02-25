@@ -8,9 +8,8 @@
     <PackageTags>Filter</PackageTags>
     <PackageProjectUrl>https://edi.wang</PackageProjectUrl>
     <RepositoryUrl>https://github.com/EdiWang/Edi.WordFilter</RepositoryUrl>
-    <Version>1.2.2</Version>
-    <Description>Module used in my blog system to filter disharmony words in order to live in China.
-It uses HashTable to filter content very quickly.</Description>
+    <Version>1.2.3</Version>
+    <Description>Filter disharmony words in order to live in China.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 

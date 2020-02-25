@@ -71,14 +71,17 @@ namespace Edi.WordFilter
 
         private void AddWordToHashtable(string word)
         {
-            var h = _filterWords;
-            foreach (var c in word.ToUpper())
+            if (!string.IsNullOrWhiteSpace(word))
             {
-                if (h != null && !h.ContainsKey(c)) h[c] = new Hashtable();
-                h = h?[c] as Hashtable;
-            }
+                var h = _filterWords;
+                foreach (var c in word.ToUpper())
+                {
+                    if (h != null && !h.ContainsKey(c)) h[c] = new Hashtable();
+                    h = h?[c] as Hashtable;
+                }
 
-            if (h != null) h[0] = new Hashtable();
+                if (h != null) h[0] = new Hashtable();
+            }
         }
 
         private int Match(string content, int index, out StringBuilder alt)
