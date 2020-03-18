@@ -4,7 +4,7 @@ Module used in my blog system to filter dirty words (e.g. insulting languages, i
 
 It uses HashTable to filter content very quickly.
 
-[![Build status](https://dev.azure.com/ediwang/EdiWang-GitHub-Builds/_apis/build/status/Edi.WordFilter-CI)](https://dev.azure.com/ediwang/EdiWang-GitHub-Builds/_build/latest?definitionId=-1)
+![.NET Core](https://github.com/EdiWang/Edi.WordFilter/workflows/.NET%20Core/badge.svg)
 
 [![NuGet][main-nuget-badge]][main-nuget]
 
