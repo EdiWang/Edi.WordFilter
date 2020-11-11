@@ -2,14 +2,10 @@ using NUnit.Framework;
 
 namespace Edi.WordFilter.Tests
 {
+    [TestFixture]
     public class Tests
     {
         public IMaskWordFilter MaskWordFilter { get; set; }
-
-        [SetUp]
-        public void Setup()
-        {
-        }
 
         [Test]
         public void TestHarmonizeWords()
