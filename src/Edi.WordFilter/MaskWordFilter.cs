@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections;
 using System.Text;
 
 namespace Edi.WordFilter
 {
     public interface IMaskWordFilter
     {
+        bool ContainsAnyWord(string content);
         string FilterContent(string content);
     }
 
@@ -19,6 +17,37 @@ namespace Edi.WordFilter
         {
             var banWords = wordSource.GetWordsArray();
             foreach (var s in banWords) AddWordToHashtable(s);
+        }
+
+        public bool ContainsAnyWord(string content)
+        {
+            lock (_filterWords)
+            {
+                var filterChar = true;
+
+                for (var i = 0; i < content.Length; i++)
+                {
+                    var c = content[i];
+                    switch (c)
+                    {
+                        case '<':
+                            filterChar = false;
+                            break;
+                        case '>':
+                            filterChar = true;
+                            break;
+                        default:
+                            if (filterChar)
+                            {
+                                var fi = Match(content, i, out var temp);
+                                if (fi != -1) return true;
+                            }
+                            break;
+                    }
+                }
+
+                return false;
+            }
         }
 
         public string FilterContent(string content)
@@ -34,30 +63,24 @@ namespace Edi.WordFilter
                     switch (c)
                     {
                         case '<':
-                            {
-                                filterChar = false;
-                                break;
-                            }
+                            filterChar = false;
+                            break;
                         case '>':
-                            {
-                                filterChar = true;
-                                break;
-                            }
+                            filterChar = true;
+                            break;
                         default:
+                            if (filterChar)
                             {
-                                if (filterChar)
+                                var fi = Match(content, i, out var temp);
+                                if (fi != -1)
                                 {
-                                    var fi = Match(content, i, out var temp);
-                                    if (fi != -1)
-                                    {
-                                        i = fi;
-                                        result.Append(temp);
-                                        continue;
-                                    }
+                                    i = fi;
+                                    result.Append(temp);
+                                    continue;
                                 }
-
-                                break;
                             }
+
+                            break;
                     }
 
                     result.Append(c);
@@ -109,22 +132,20 @@ namespace Edi.WordFilter
                     case ' ':
                         break;
                     default:
+                        if (filterChar)
                         {
-                            if (filterChar)
+                            if (h != null && h.ContainsKey(c))
                             {
-                                if (h != null && h.ContainsKey(c))
-                                {
-                                    h = h[c] as Hashtable;
-                                    c = '*';
-                                }
-                                else
-                                {
-                                    if (!h.ContainsKey(0)) return -1;
-                                }
+                                h = h[c] as Hashtable;
+                                c = '*';
                             }
-
-                            break;
+                            else
+                            {
+                                if (!h.ContainsKey(0)) return -1;
+                            }
                         }
+
+                        break;
                 }
 
                 alt.Append(c);
