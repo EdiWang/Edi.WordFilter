@@ -2,7 +2,7 @@
 
 Module used in my blog system to filter dirty words (e.g. insulting languages, impertinent words)
 
-It uses HashTable to filter content very quickly.
+It uses Dictionary to filter content very quickly.
 
 ![.NET Build Linux](https://github.com/EdiWang/Edi.WordFilter/workflows/.NET%20Build%20Linux/badge.svg)
 
@@ -36,16 +36,16 @@ commentContent = maskWordFilter.FilterContent(commentContent);
 
 ### Design Details
 
-Split disharmony word into HashTable, Key points to the first character, Value points to the next character where Value itself is the Key of the next HashTable. When filtering content, begin search with the first HashTable, if matching double side, then it is a disharmony word.
+Split disharmony word into Dictionary, Key points to the first character, Value points to the next character where Value itself is the Key of the next Dictionary. When filtering content, begin search with the first Dictionary, if matching double side, then it is a disharmony word.
 
 For example, given disharmony word **"FUCK,FS,ABC"**, the following structure is created:
 
-![image](https://raw.githubusercontent.com/EdiWang/Edi.WordFilter/master/img/doc-hashtable-structure.png)
+![image](https://raw.githubusercontent.com/EdiWang/Edi.WordFilter/master/img/doc-dic-structure.png)
 
-Each blue box represents a HashTable, each character of the disharmony word is stored as the Key and pointing to the next HashTable.
+Each blue box represents a Dictionary, each character of the disharmony word is stored as the Key and pointing to the next Dictionary.
 
 For example, if user input **"FUCK FAKE"**, the flow is:
 
-"F" can be found in the first level of HashTable(H0), "U" can be found in the HashTable(H1) where H1's value is reffered to, like this, C and K can be found in H2 and H3, so "FUCK" is a disharmony word.
+"F" can be found in the first level of Dictionary(H0), "U" can be found in the Dictionary(H1) where H1's value is reffered to, like this, C and K can be found in H2 and H3, so "FUCK" is a disharmony word.
 
-For the word "FAKE", although "F" can be found in HashTable(H0), but H0 does not have a value pointing to "A", and "A" also don't have "K" sits in it's value, and "K" also does not exists in the first level of HashTable, so "FAKE" is not a disharmony word.
+For the word "FAKE", although "F" can be found in Dictionary(H0), but H0 does not have a value pointing to "A", and "A" also don't have "K" sits in it's value, and "K" also does not exists in the first level of Dictionary, so "FAKE" is not a disharmony word.

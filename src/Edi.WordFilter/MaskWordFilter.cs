@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Edi.WordFilter
@@ -11,7 +12,7 @@ namespace Edi.WordFilter
 
     public class MaskWordFilter : IMaskWordFilter
     {
-        private readonly Hashtable _filterWords = new Hashtable();
+        private readonly IDictionary<char, IDictionary> _filterWords = new Dictionary<char, IDictionary>();
 
         public MaskWordFilter(IWordSource wordSource)
         {
@@ -94,17 +95,16 @@ namespace Edi.WordFilter
 
         private void AddWordToHashtable(string word)
         {
-            if (!string.IsNullOrWhiteSpace(word))
-            {
-                var h = _filterWords;
-                foreach (var c in word.ToUpper())
-                {
-                    if (h != null && !h.ContainsKey(c)) h[c] = new Hashtable();
-                    h = h?[c] as Hashtable;
-                }
+            if (string.IsNullOrWhiteSpace(word)) return;
 
-                if (h != null) h[0] = new Hashtable();
+            var h = _filterWords;
+            foreach (var c in word.ToUpper())
+            {
+                if (h != null && !h.ContainsKey(c)) h[c] = new Dictionary<char, IDictionary>();
+                h = h?[c] as IDictionary<char, IDictionary>;
             }
+
+            if (h != null) h['0'] = new Dictionary<char, IDictionary>();
         }
 
         private int Match(string content, int index, out StringBuilder alt)
@@ -136,12 +136,12 @@ namespace Edi.WordFilter
                         {
                             if (h != null && h.ContainsKey(c))
                             {
-                                h = h[c] as Hashtable;
+                                h = h[c] as IDictionary<char, IDictionary>;
                                 c = '*';
                             }
                             else
                             {
-                                if (!h.ContainsKey(0)) return -1;
+                                if (h != null && !h.ContainsKey('0')) return -1;
                             }
                         }
 
@@ -149,10 +149,10 @@ namespace Edi.WordFilter
                 }
 
                 alt.Append(c);
-                if (h != null && h.ContainsKey(0)) return i;
+                if (h != null && h.ContainsKey('0')) return i;
             }
 
-            return h != null && h.ContainsKey(0) ? i : -1;
+            return h != null && h.ContainsKey('0') ? i : -1;
         }
 
         #endregion
