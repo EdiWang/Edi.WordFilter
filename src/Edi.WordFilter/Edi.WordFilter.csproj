@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Edi Wang</Authors>
     <Company>edi.wang</Company>
     <PackageTags>Filter</PackageTags>
     <PackageProjectUrl>https://edi.wang</PackageProjectUrl>
     <RepositoryUrl>https://github.com/EdiWang/Edi.WordFilter</RepositoryUrl>
-    <Version>1.6.1</Version>
+    <Version>1.7.0</Version>
     <Description>Filter disharmony words in order to live in China.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
