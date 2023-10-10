@@ -8,9 +8,11 @@
     <PackageTags>Filter</PackageTags>
     <PackageProjectUrl>https://edi.wang</PackageProjectUrl>
     <RepositoryUrl>https://github.com/EdiWang/Edi.WordFilter</RepositoryUrl>
-    <Version>1.7.0</Version>
+    <Version>1.7.1</Version>
     <Description>Filter disharmony words in order to live in China.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageIconUrl>https://ediwangstorage.blob.core.windows.net/web-assets/edi-logo-blue.png</PackageIconUrl>
   </PropertyGroup>
 
 </Project>
