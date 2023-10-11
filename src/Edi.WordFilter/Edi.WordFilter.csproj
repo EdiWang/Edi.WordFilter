@@ -1,18 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Edi Wang</Authors>
     <Company>edi.wang</Company>
     <PackageTags>Filter</PackageTags>
     <PackageProjectUrl>https://edi.wang</PackageProjectUrl>
     <RepositoryUrl>https://github.com/EdiWang/Edi.WordFilter</RepositoryUrl>
-    <Version>1.7.1</Version>
+    <Version>1.8.0</Version>
     <Description>Filter disharmony words in order to live in China.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageIconUrl>https://ediwangstorage.blob.core.windows.net/web-assets/edi-logo-blue.png</PackageIconUrl>
+    <PackageIcon>edi-logo-blue.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\..\img\edi-logo-blue.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
 </Project>
