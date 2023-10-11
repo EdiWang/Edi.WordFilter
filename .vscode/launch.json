@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Edi.WordFilter.Tests/bin/Debug/net7.0/Edi.WordFilter.Tests.dll",
+            "program": "${workspaceFolder}/src/Edi.WordFilter.Tests/bin/Debug/net8.0/Edi.WordFilter.Tests.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Edi.WordFilter.Tests",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
