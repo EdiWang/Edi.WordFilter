@@ -14,7 +14,7 @@ public class Tests
 
         var disharmonyStr = "Go fuck yourself and eat some shit!";
         var harmonyStr = MaskWordFilter.FilterContent(disharmonyStr);
-        Assert.AreEqual("Go **** yourself and eat some ****!", harmonyStr);
+        Assert.That("Go **** yourself and eat some ****!", Is.EqualTo(harmonyStr));
     }
 
     [Test]
@@ -24,7 +24,7 @@ public class Tests
 
         var disharmonyStr = "Go fuck yourself and eat some shit!";
         var harmonyStr = MaskWordFilter.FilterContent(disharmonyStr);
-        Assert.AreEqual("Go **** yourself and eat some ****!", harmonyStr);
+        Assert.That("Go **** yourself and eat some ****!", Is.EqualTo(harmonyStr));
     }
 
     [Test]
@@ -34,7 +34,7 @@ public class Tests
 
         var disharmonyStr = "Go fuck yourself and eat some shit!";
         var b = MaskWordFilter.ContainsAnyWord(disharmonyStr);
-        Assert.IsTrue(b);
+        Assert.That(b, Is.True);
     }
 
     [Test]
@@ -44,6 +44,6 @@ public class Tests
 
         var disharmonyStr = "Go frack yourself and eat some shirt!";
         var b = MaskWordFilter.ContainsAnyWord(disharmonyStr);
-        Assert.IsFalse(b);
+        Assert.That(b, Is.False);
     }
 }
