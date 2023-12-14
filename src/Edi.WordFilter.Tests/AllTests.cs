@@ -10,7 +10,7 @@ public class Tests
     [Test]
     public void HarmonizeWords()
     {
-        MaskWordFilter = new MaskWordFilter(new StringWordSource("fuck|shit"));
+        MaskWordFilter = new HashTableWordFilter(new StringWordSource("fuck|shit"));
 
         var disharmonyStr = "Go fuck yourself and eat some shit!";
         var harmonyStr = MaskWordFilter.FilterContent(disharmonyStr);
@@ -20,7 +20,7 @@ public class Tests
     [Test]
     public void HarmonizeWords_MessedUpSource()
     {
-        MaskWordFilter = new MaskWordFilter(new StringWordSource("fuck|shit|"));
+        MaskWordFilter = new HashTableWordFilter(new StringWordSource("fuck|shit|"));
 
         var disharmonyStr = "Go fuck yourself and eat some shit!";
         var harmonyStr = MaskWordFilter.FilterContent(disharmonyStr);
@@ -30,7 +30,7 @@ public class Tests
     [Test]
     public void ContainsAnyWord_Yes()
     {
-        MaskWordFilter = new MaskWordFilter(new StringWordSource("fuck|shit"));
+        MaskWordFilter = new HashTableWordFilter(new StringWordSource("fuck|shit"));
 
         var disharmonyStr = "Go fuck yourself and eat some shit!";
         var b = MaskWordFilter.ContainsAnyWord(disharmonyStr);
@@ -40,7 +40,7 @@ public class Tests
     [Test]
     public void ContainsAnyWord_No()
     {
-        MaskWordFilter = new MaskWordFilter(new StringWordSource("fuck|shit"));
+        MaskWordFilter = new HashTableWordFilter(new StringWordSource("fuck|shit"));
 
         var disharmonyStr = "Go frack yourself and eat some shirt!";
         var b = MaskWordFilter.ContainsAnyWord(disharmonyStr);

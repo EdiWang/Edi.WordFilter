@@ -10,11 +10,11 @@ namespace Edi.WordFilter
         string FilterContent(string content);
     }
 
-    public class MaskWordFilter : IMaskWordFilter
+    public class HashTableWordFilter : IMaskWordFilter
     {
         private readonly IDictionary<char, IDictionary> _filterWords = new Dictionary<char, IDictionary>();
 
-        public MaskWordFilter(IWordSource wordSource)
+        public HashTableWordFilter(IWordSource wordSource)
         {
             var banWords = wordSource.GetWordsArray();
             foreach (var s in banWords) AddWordToHashtable(s);
