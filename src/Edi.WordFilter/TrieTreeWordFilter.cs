@@ -6,12 +6,12 @@ namespace Edi.WordFilter;
 public class TrieNode
 {
     public Dictionary<char, TrieNode> Children = new();
-    public bool IsEndOfWord = false;
+    public bool IsEndOfWord;
 }
 
 public class TrieTreeWordFilter : IMaskWordFilter
 {
-    private TrieNode root = new TrieNode();
+    private readonly TrieNode _root = new();
 
     public TrieTreeWordFilter(IWordSource wordSource)
     {
@@ -21,12 +21,12 @@ public class TrieTreeWordFilter : IMaskWordFilter
 
     public void AddWord(string word)
     {
-        TrieNode current = root;
-        foreach (char ch in word)
+        var current = _root;
+        foreach (var ch in word)
         {
-            if (!current.Children.TryGetValue(ch, out TrieNode node))
+            if (!current.Children.TryGetValue(ch, out var node))
             {
-                node = new TrieNode();
+                node = new();
                 current.Children.Add(ch, node);
             }
             current = node;
@@ -41,25 +41,25 @@ public class TrieTreeWordFilter : IMaskWordFilter
 
     public string FilterContent(string content)
     {
-        char[] result = new char[content.Length];
-        TrieNode current = root;
+        var result = new char[content.Length];
+        var current = _root;
         int slowIndex = 0, fastIndex = 0;
 
         while (fastIndex < content.Length)
         {
-            char ch = content[fastIndex];
-            if (current.Children.TryGetValue(ch, out TrieNode node))
+            var ch = content[fastIndex];
+            if (current.Children.TryGetValue(ch, out var node))
             {
                 // Found a starting character of a word
                 if (node.IsEndOfWord)
                 {
                     // Found a complete sensitive word, replace it with '*'
-                    for (int i = slowIndex; i <= fastIndex; i++)
+                    for (var i = slowIndex; i <= fastIndex; i++)
                     {
                         result[i] = '*';
                     }
                     // Reset trie traversal to the root
-                    current = root;
+                    current = _root;
                     slowIndex = fastIndex + 1;
                 }
                 else
@@ -75,10 +75,10 @@ public class TrieTreeWordFilter : IMaskWordFilter
                 result[slowIndex] = content[slowIndex];
                 slowIndex++;
                 // If not starting from the root (inside a potential word)
-                if (current != root)
+                if (current != _root)
                 {
                     fastIndex = slowIndex;
-                    current = root;
+                    current = _root;
                 }
                 else
                 {
@@ -94,6 +94,6 @@ public class TrieTreeWordFilter : IMaskWordFilter
             slowIndex++;
         }
 
-        return new string(result);
+        return new(result);
     }
 }
