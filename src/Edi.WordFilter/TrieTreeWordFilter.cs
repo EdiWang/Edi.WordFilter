@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace Edi.WordFilter;
 
+public class TrieNode
+{
+    public Dictionary<char, TrieNode> Children = new();
+    public bool IsEndOfWord = false;
+}
+
 public class TrieTreeWordFilter : IMaskWordFilter
 {
     public bool ContainsAnyWord(string content)
