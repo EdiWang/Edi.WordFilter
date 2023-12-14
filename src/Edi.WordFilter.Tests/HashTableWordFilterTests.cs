@@ -3,7 +3,7 @@ using NUnit.Framework;
 namespace Edi.WordFilter.Tests;
 
 [TestFixture]
-public class Tests
+public class HashTableWordFilterTests
 {
     public IMaskWordFilter MaskWordFilter { get; set; }
 
