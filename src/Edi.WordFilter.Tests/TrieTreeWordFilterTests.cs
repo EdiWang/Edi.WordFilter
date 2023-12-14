@@ -21,4 +21,14 @@ public class TrieTreeWordFilterTests
         var harmonyStr = MaskWordFilter.FilterContent(disharmonyStr);
         Assert.That("Go **** yourself and eat some ****!", Is.EqualTo(harmonyStr));
     }
+
+    [Test]
+    public void HarmonizeWords_MessedUpSource()
+    {
+        MaskWordFilter = new TrieTreeWordFilter(new StringWordSource("fuck|shit|"));
+
+        var disharmonyStr = "Go fuck yourself and eat some shit!";
+        var harmonyStr = MaskWordFilter.FilterContent(disharmonyStr);
+        Assert.That("Go **** yourself and eat some ****!", Is.EqualTo(harmonyStr));
+    }
 }
