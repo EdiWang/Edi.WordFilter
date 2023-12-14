@@ -27,7 +27,7 @@ Install-Package Edi.WordFilter
 **3.Use it like this:**
 ```
 var wordFilterDataFilePath = $"{AppDomain.CurrentDomain.GetData(Constants.DataDirectory)}\\BannedWords.txt";
-var maskWordFilter = new MaskWordFilter(wordFilterDataFilePath);
+var maskWordFilter = new HashTableWordFilter(wordFilterDataFilePath);
 username = maskWordFilter.FilterContent(username);
 commentContent = maskWordFilter.FilterContent(commentContent);
 ```
