@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Edi.WordFilter
+﻿namespace Edi.WordFilter
 {
     public interface IWordSource
     {
