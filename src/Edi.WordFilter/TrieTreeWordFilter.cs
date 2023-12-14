@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Edi.WordFilter;
 
@@ -44,6 +41,59 @@ public class TrieTreeWordFilter : IMaskWordFilter
 
     public string FilterContent(string content)
     {
-        throw new NotImplementedException();
+        char[] result = new char[content.Length];
+        TrieNode current = root;
+        int slowIndex = 0, fastIndex = 0;
+
+        while (fastIndex < content.Length)
+        {
+            char ch = content[fastIndex];
+            if (current.Children.TryGetValue(ch, out TrieNode node))
+            {
+                // Found a starting character of a word
+                if (node.IsEndOfWord)
+                {
+                    // Found a complete sensitive word, replace it with '*'
+                    for (int i = slowIndex; i <= fastIndex; i++)
+                    {
+                        result[i] = '*';
+                    }
+                    // Reset trie traversal to the root
+                    current = root;
+                    slowIndex = fastIndex + 1;
+                }
+                else
+                {
+                    // Continue to the next character
+                    current = node;
+                }
+                fastIndex++;
+            }
+            else
+            {
+                // Current path does not lead to a sensitive word
+                result[slowIndex] = content[slowIndex];
+                slowIndex++;
+                // If not starting from the root (inside a potential word)
+                if (current != root)
+                {
+                    fastIndex = slowIndex;
+                    current = root;
+                }
+                else
+                {
+                    fastIndex++;
+                }
+            }
+        }
+
+        // Copy the remaining characters
+        while (slowIndex < content.Length)
+        {
+            result[slowIndex] = content[slowIndex];
+            slowIndex++;
+        }
+
+        return new string(result);
     }
 }
