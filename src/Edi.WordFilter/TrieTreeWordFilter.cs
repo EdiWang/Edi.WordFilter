@@ -36,7 +36,32 @@ public class TrieTreeWordFilter : IMaskWordFilter
 
     public bool ContainsAnyWord(string content)
     {
-        throw new NotImplementedException();
+        var current = _root;
+        int index = 0;
+
+        while (index < content.Length)
+        {
+            var ch = content[index];
+            if (current.Children.TryGetValue(ch, out var node))
+            {
+                // Found a starting character of a word
+                if (node.IsEndOfWord)
+                {
+                    return true;
+                }
+                // Continue to the next character
+                current = node;
+                index++;
+            }
+            else
+            {
+                // Current path does not lead to a sensitive word
+                // Move to the next character
+                index++;
+            }
+        }
+
+        return false;
     }
 
     public string FilterContent(string content)
