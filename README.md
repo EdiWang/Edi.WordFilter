@@ -57,7 +57,45 @@ For the word "FAKE", although "F" can be found in Dictionary(H0), but H0 does no
 
 #### TrieTreeWordFilter
 
-This is written by ChatGPT, I am too stupid to understand it, but it's faster than my `HashTableWordFilter`
+> This is written by ChatGPT, it's faster than my `HashTableWordFilter`.
+
+The `FilterContent()` method in the `TrieTreeWordFilter` class is used to filter sensitive words from a given string content. It uses a Trie data structure to efficiently find and replace sensitive words with asterisks (*).
+
+Here's a step-by-step explanation of how it works:
+1.	It initializes a `result` array with the same length as the input content. This array will hold the filtered content.
+2.	It sets two pointers, `slowIndex` and `fastIndex`, to track the start and end of a potential sensitive word in the content.
+3.	It then enters a loop that continues until fastIndex has traversed the entire content.
+4.	Inside the loop, it checks if the current character exists as a child in the current Trie node. If it does, it means the current character could be part of a sensitive word.
+5.	If the current Trie node marks the end of a word (`node.IsEndOfWord` is true), it means a complete sensitive word has been found. The method then replaces all characters of this word in the `result` array with asterisks (*).
+6.	If the current Trie node does not mark the end of a word, it means the current character could be part of a longer sensitive word. The method then moves to the next character and continues the loop.
+7.	If the current character does not exist as a child in the current Trie node, it means the current character is not part of a sensitive word. The method then copies this character to the `result` array.
+8.	After the loop, it copies any remaining characters in the content to the `result` array.
+9.	Finally, it returns the `result` array as a new string, which is the filtered content.
+
+This method is efficient for filtering sensitive words, especially when there is a large set of words to filter. However, it assumes that the Trie tree has been properly initialized with all the sensitive words.
+
+##### Trie Tree
+
+A Trie, also known as a prefix tree, is a tree-like data structure that is used to store a collection of strings. Each node of the Trie represents a character of a string and the root of the Trie represents an empty string or the start of a string. The strings are stored in a way that all the descendants of a node have a common prefix of the string associated with that node.
+Here's a simple example of how a Trie might look when storing the words "car", "cat", and "dog":
+
+```
+root
+├── c
+│   ├── a
+│   │   ├── r
+│   │   └── t
+└── d
+    └── o
+        └── g
+```
+
+In this example, each path from the root to a node represents a string. For instance, the path from the root to the node 'r' represents the string "car".
+
+Tries are particularly useful for operations that involve prefix matching, such as autocomplete features in text editors or web browsers, as they allow for efficient retrieval of all keys with a given prefix. They are also used in word filtering, as in the FilterContent() method you asked about earlier.
+
+However, Tries can be memory-intensive, as each node may need to store pointers to many children. There are variations of the Trie data structure, such as the compressed Trie (also known as a Radix tree or Patricia tree), which help to mitigate this issue by merging nodes with a single child.
+
 
 ## 免责申明
 
