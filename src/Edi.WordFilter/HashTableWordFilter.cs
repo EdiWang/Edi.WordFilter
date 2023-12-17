@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Edi.WordFilter
 {
+    [Obsolete]
     public class HashTableWordFilter : IMaskWordFilter
     {
         private readonly IDictionary<char, IDictionary> _filterWords = new Dictionary<char, IDictionary>();
