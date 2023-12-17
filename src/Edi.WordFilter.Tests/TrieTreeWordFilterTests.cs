@@ -14,7 +14,7 @@ public class TrieTreeWordFilterTests
 
         var disharmonyStr = "Go fuck yourself and eat some shit!";
         var harmonyStr = MaskWordFilter.FilterContent(disharmonyStr);
-        Assert.That("Go **** yourself and eat some ****!", Is.EqualTo(harmonyStr));
+        Assert.That(harmonyStr, Is.EqualTo("Go **** yourself and eat some ****!"));
     }
 
     [Test]
@@ -24,7 +24,7 @@ public class TrieTreeWordFilterTests
 
         var disharmonyStr = "Go FuCk yourself and eat some shiT!";
         var harmonyStr = MaskWordFilter.FilterContent(disharmonyStr);
-        Assert.That("Go **** yourself and eat some ****!", Is.EqualTo(harmonyStr));
+        Assert.That(harmonyStr, Is.EqualTo("Go **** yourself and eat some ****!"));
     }
 
     [Test]
@@ -34,7 +34,7 @@ public class TrieTreeWordFilterTests
 
         var disharmonyStr = "Go fuck yourself and eat some shit!";
         var harmonyStr = MaskWordFilter.FilterContent(disharmonyStr);
-        Assert.That("Go **** yourself and eat some ****!", Is.EqualTo(harmonyStr));
+        Assert.That(harmonyStr, Is.EqualTo("Go **** yourself and eat some ****!"));
     }
 
     [Test]
