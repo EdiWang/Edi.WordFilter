@@ -1,59 +1,37 @@
 # Edi.WordFilter
 
-Module used in my blog system to filter dirty words (e.g. insulting languages, impertinent words)
+Basic word filter used in my blog system to filter dirty words (e.g. insulting languages, impertinent words)
 
 [![NuGet][main-nuget-badge]][main-nuget]
 
 [main-nuget]: https://www.nuget.org/packages/Edi.WordFilter/
 [main-nuget-badge]: https://img.shields.io/nuget/v/Edi.WordFilter.svg?style=flat-square&label=nuget
 
+## Install
+
+```
+dotnet add package Edi.WordFilter
+```
+
 ## Usage
 
-**1.Prepare a text file with banned words, for example splitted by "|". Like this:**
+Prepare a text file with banned words, for example splitted by `|`. Like this:
 
 ```
 fuck|shit|ass
 ```
 
-Because I still want to live in China, I can't give you the entire keywords list, sorry for that.
-
-**2.Install from NuGet:**
-
-```
-Install-Package Edi.WordFilter
-```
-
-**3.Use it like this:**
+Use it like this
 
 ```
 var wordFilterDataFilePath = $"{AppDomain.CurrentDomain.GetData(Constants.DataDirectory)}\\BannedWords.txt";
+var filter = new TrieTreeWordFilter(wordFilterDataFilePath);
 
-// or `var maskWordFilter = new TrieTreeWordFilter(wordFilterDataFilePath);`
-var maskWordFilter = new HashTableWordFilter(wordFilterDataFilePath);
-
-username = maskWordFilter.FilterContent(username);
-commentContent = maskWordFilter.FilterContent(commentContent);
+var output = filter.FilterContent("Go fuck yourself and eat some shit!");
+// output: Go **** yourself and eat some ****!
 ```
 
-**4.The disharmony words will be replaced by "*"**
-
 ### Design Details
-
-#### HashTableWordFilter
-
-Split disharmony word into Dictionary, Key points to the first character, Value points to the next character where Value itself is the Key of the next Dictionary. When filtering content, begin search with the first Dictionary, if matching double side, then it is a disharmony word.
-
-For example, given disharmony word **"FUCK,FS,ABC"**, the following structure is created:
-
-![image](https://raw.githubusercontent.com/EdiWang/Edi.WordFilter/master/img/doc-dic-structure.png)
-
-Each blue box represents a Dictionary, each character of the disharmony word is stored as the Key and pointing to the next Dictionary.
-
-For example, if user input **"FUCK FAKE"**, the flow is:
-
-"F" can be found in the first level of Dictionary(H0), "U" can be found in the Dictionary(H1) where H1's value is reffered to, like this, C and K can be found in H2 and H3, so "FUCK" is a disharmony word.
-
-For the word "FAKE", although "F" can be found in Dictionary(H0), but H0 does not have a value pointing to "A", and "A" also don't have "K" sits in it's value, and "K" also does not exists in the first level of Dictionary, so "FAKE" is not a disharmony word.
 
 #### TrieTreeWordFilter
 
@@ -96,6 +74,21 @@ Tries are particularly useful for operations that involve prefix matching, such 
 
 However, Tries can be memory-intensive, as each node may need to store pointers to many children. There are variations of the Trie data structure, such as the compressed Trie (also known as a Radix tree or Patricia tree), which help to mitigate this issue by merging nodes with a single child.
 
+#### HashTableWordFilter (obsolete)
+
+Split disharmony word into Dictionary, Key points to the first character, Value points to the next character where Value itself is the Key of the next Dictionary. When filtering content, begin search with the first Dictionary, if matching double side, then it is a disharmony word.
+
+For example, given disharmony word **"FUCK,FS,ABC"**, the following structure is created:
+
+![image](https://raw.githubusercontent.com/EdiWang/Edi.WordFilter/master/img/doc-dic-structure.png)
+
+Each blue box represents a Dictionary, each character of the disharmony word is stored as the Key and pointing to the next Dictionary.
+
+For example, if user input **"FUCK FAKE"**, the flow is:
+
+"F" can be found in the first level of Dictionary(H0), "U" can be found in the Dictionary(H1) where H1's value is reffered to, like this, C and K can be found in H2 and H3, so "FUCK" is a disharmony word.
+
+For the word "FAKE", although "F" can be found in Dictionary(H0), but H0 does not have a value pointing to "A", and "A" also don't have "K" sits in it's value, and "K" also does not exists in the first level of Dictionary, so "FAKE" is not a disharmony word.
 
 ## 免责申明
 
