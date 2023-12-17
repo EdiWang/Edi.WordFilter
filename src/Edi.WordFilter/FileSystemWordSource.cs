@@ -24,11 +24,9 @@ namespace Edi.WordFilter
 
         private string GetBanWordFromDataFile()
         {
-            using (var reader = new StreamReader(DataFilePath, Encoding.UTF8))
-            {
-                var content = reader.ReadLine();
-                return content;
-            }
+            using var reader = new StreamReader(DataFilePath, Encoding.UTF8);
+            var content = reader.ReadLine();
+            return content;
         }
     }
 }
