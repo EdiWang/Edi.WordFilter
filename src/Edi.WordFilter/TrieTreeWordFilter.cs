@@ -16,7 +16,7 @@ public class TrieTreeWordFilter : IMaskWordFilter
     public TrieTreeWordFilter(IWordSource wordSource)
     {
         var banWords = wordSource.GetWordsArray();
-        foreach (var s in banWords) AddWord(s);
+        foreach (var s in banWords) AddWord(s.ToLower());
     }
 
     public void AddWord(string word)
@@ -41,7 +41,7 @@ public class TrieTreeWordFilter : IMaskWordFilter
 
         while (index < content.Length)
         {
-            var ch = content[index];
+            var ch = char.ToLower(content[index]);
             if (current.Children.TryGetValue(ch, out var node))
             {
                 // Found a starting character of a word
@@ -72,7 +72,7 @@ public class TrieTreeWordFilter : IMaskWordFilter
 
         while (fastIndex < content.Length)
         {
-            var ch = content[fastIndex];
+            var ch = char.ToLower(content[fastIndex]);
             if (current.Children.TryGetValue(ch, out var node))
             {
                 // Found a starting character of a word
