@@ -35,8 +35,6 @@ var output = filter.FilterContent("Go fuck yourself and eat some shit!");
 
 #### TrieTreeWordFilter
 
-> This is written by ChatGPT, it's faster than my `HashTableWordFilter`.
-
 The `FilterContent()` method in the `TrieTreeWordFilter` class is used to filter sensitive words from a given string content. It uses a Trie data structure to efficiently find and replace sensitive words with asterisks (*).
 
 This method is efficient for filtering sensitive words, especially when there is a large set of words to filter. However, it assumes that the Trie tree has been properly initialized with all the sensitive words.
