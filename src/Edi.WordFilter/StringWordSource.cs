@@ -1,20 +1,13 @@
-﻿namespace Edi.WordFilter
+﻿namespace Edi.WordFilter;
+
+public class StringWordSource(string words, char splitChar = '|') : IWordSource
 {
-    public class StringWordSource : IWordSource
+    public char SplitChar { get; } = splitChar;
+
+    public string Words { get; } = words;
+
+    public string[] GetWordsArray()
     {
-        public char SplitChar { get; }
-
-        public string Words { get; }
-
-        public StringWordSource(string words, char splitChar = '|')
-        {
-            Words = words;
-            SplitChar = splitChar;
-        }
-
-        public string[] GetWordsArray()
-        {
-            return Words.Split(SplitChar);
-        }
+        return Words.Split(SplitChar);
     }
 }

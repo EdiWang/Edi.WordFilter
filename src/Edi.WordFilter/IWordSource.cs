@@ -1,9 +1,8 @@
-﻿namespace Edi.WordFilter
-{
-    public interface IWordSource
-    {
-        char SplitChar { get; }
+﻿namespace Edi.WordFilter;
 
-        string[] GetWordsArray();
-    }
+public interface IWordSource
+{
+    char SplitChar { get; }
+
+    string[] GetWordsArray();
 }
