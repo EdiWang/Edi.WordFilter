@@ -35,28 +35,27 @@ public class TrieTreeWordFilter : IMaskWordFilter
 
     public bool ContainsAnyWord(string content)
     {
-        var current = _root;
-        int index = 0;
-
-        while (index < content.Length)
+        for (int i = 0; i < content.Length; i++)
         {
-            var ch = char.ToLower(content[index]);
-            if (current.Children.TryGetValue(ch, out var node))
+            var current = _root;
+            int j = i;
+
+            while (j < content.Length)
             {
-                // Found a starting character of a word
-                if (node.IsEndOfWord)
+                var ch = char.ToLower(content[j]);
+                if (current.Children.TryGetValue(ch, out var node))
                 {
-                    return true;
+                    current = node;
+                    if (current.IsEndOfWord)
+                    {
+                        return true;
+                    }
+                    j++;
                 }
-                // Continue to the next character
-                current = node;
-                index++;
-            }
-            else
-            {
-                // Current path does not lead to a sensitive word
-                // Move to the next character
-                index++;
+                else
+                {
+                    break;
+                }
             }
         }
 
@@ -65,59 +64,45 @@ public class TrieTreeWordFilter : IMaskWordFilter
 
     public string FilterContent(string content)
     {
-        var result = new char[content.Length];
-        var current = _root;
-        int slowIndex = 0, fastIndex = 0;
+        var result = content.ToCharArray();
 
-        while (fastIndex < content.Length)
+        for (int i = 0; i < content.Length; i++)
         {
-            var ch = char.ToLower(content[fastIndex]);
-            if (current.Children.TryGetValue(ch, out var node))
+            var current = _root;
+            int j = i;
+            int lastEndOfWordIndex = -1;
+
+            // Find the longest matching word starting at position i
+            while (j < content.Length)
             {
-                // Found a starting character of a word
-                if (node.IsEndOfWord)
+                var ch = char.ToLower(content[j]);
+                if (current.Children.TryGetValue(ch, out var node))
                 {
-                    // Found a complete sensitive word, replace it with '*'
-                    for (var i = slowIndex; i <= fastIndex; i++)
-                    {
-                        result[i] = '*';
-                    }
-                    // Reset trie traversal to the root
-                    current = _root;
-                    slowIndex = fastIndex + 1;
-                }
-                else
-                {
-                    // Continue to the next character
                     current = node;
-                }
-                fastIndex++;
-            }
-            else
-            {
-                // Current path does not lead to a sensitive word
-                result[slowIndex] = content[slowIndex];
-                slowIndex++;
-                // If not starting from the root (inside a potential word)
-                if (current != _root)
-                {
-                    fastIndex = slowIndex;
-                    current = _root;
+                    if (current.IsEndOfWord)
+                    {
+                        lastEndOfWordIndex = j;
+                    }
+                    j++;
                 }
                 else
                 {
-                    fastIndex++;
+                    break;
                 }
+            }
+
+            // If we found a complete word, mask it with the longest match
+            if (lastEndOfWordIndex != -1)
+            {
+                for (int k = i; k <= lastEndOfWordIndex; k++)
+                {
+                    result[k] = '*';
+                }
+                // Skip to the end of the masked word
+                i = lastEndOfWordIndex;
             }
         }
 
-        // Copy the remaining characters
-        while (slowIndex < content.Length)
-        {
-            result[slowIndex] = content[slowIndex];
-            slowIndex++;
-        }
-
-        return new(result);
+        return new string(result);
     }
 }
