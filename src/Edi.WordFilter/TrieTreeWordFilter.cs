@@ -1,26 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Buffers;
 
 namespace Edi.WordFilter;
-
-public sealed class TrieNode
-{
-    public Dictionary<char, TrieNode> Children { get; set; }
-    public bool IsEndOfWord { get; set; }
-
-    public void AddChild(char ch, TrieNode node)
-    {
-        Children ??= [];
-        Children[ch] = node;
-    }
-
-    public bool TryGetChild(char ch, out TrieNode node)
-    {
-        node = null;
-        return Children?.TryGetValue(ch, out node) == true;
-    }
-}
 
 public sealed class TrieTreeWordFilter : IMaskWordFilter
 {
@@ -92,46 +75,59 @@ public sealed class TrieTreeWordFilter : IMaskWordFilter
     {
         if (string.IsNullOrEmpty(content)) return content;
 
-        var result = new StringBuilder(content);
         var contentSpan = content.AsSpan();
-
-        for (int i = 0; i < contentSpan.Length; i++)
+        Span<char> result = stackalloc char[content.Length <= 1024 ? content.Length : 0];
+        char[] rentedArray = null;
+        
+        if (content.Length > 1024)
         {
-            var current = _root;
-            int j = i;
-            int lastEndOfWordIndex = -1;
-
-            // Find the longest matching word starting at position i
-            while (j < contentSpan.Length)
-            {
-                var ch = char.ToLowerInvariant(contentSpan[j]);
-                if (current.TryGetChild(ch, out var node))
-                {
-                    current = node!;
-                    if (current.IsEndOfWord)
-                    {
-                        lastEndOfWordIndex = j;
-                    }
-                    j++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            // If we found a complete word, mask it with the longest match
-            if (lastEndOfWordIndex != -1)
-            {
-                for (int k = i; k <= lastEndOfWordIndex; k++)
-                {
-                    result[k] = '*';
-                }
-                // Skip to the end of the masked word
-                i = lastEndOfWordIndex;
-            }
+            rentedArray = ArrayPool<char>.Shared.Rent(content.Length);
+            result = rentedArray.AsSpan(0, content.Length);
         }
 
-        return result.ToString();
+        try
+        {
+            contentSpan.CopyTo(result);
+            
+            for (int i = 0; i < result.Length; i++)
+            {
+                var current = _root;
+                int j = i;
+                int lastEndOfWordIndex = -1;
+
+                while (j < result.Length)
+                {
+                    var ch = char.ToLowerInvariant(result[j]);
+                    if (current.TryGetChild(ch, out var node))
+                    {
+                        current = node!;
+                        if (current.IsEndOfWord)
+                        {
+                            lastEndOfWordIndex = j;
+                        }
+                        j++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (lastEndOfWordIndex != -1)
+                {
+                    result.Slice(i, lastEndOfWordIndex - i + 1).Fill('*');
+                    i = lastEndOfWordIndex;
+                }
+            }
+
+            return new string(result);
+        }
+        finally
+        {
+            if (rentedArray != null)
+            {
+                ArrayPool<char>.Shared.Return(rentedArray);
+            }
+        }
     }
 }
